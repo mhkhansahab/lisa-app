@@ -8,6 +8,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Expanded(
           child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
