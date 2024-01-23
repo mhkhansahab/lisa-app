@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lisa_bot/screens/chat.dart';
+import 'package:lisa_bot/store/cubit/user.dart';
 import 'screens/home.dart';
+import 'screens/auth.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  await dotenv.load(fileName: ".env");
+  runApp(BlocProvider(create: (context) => UserCubit(), child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -16,7 +21,8 @@ class MyApp extends StatelessWidget {
       title: 'Lisa AI',
       initialRoute: '/',
       routes: {
-        '/': (context) => const Home(),
+        '/': (context) => const Auth(),
+        '/home': (context) => const Home(),
         '/chat': (context) => const Chat(),
       },
     );

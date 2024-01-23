@@ -1,5 +1,8 @@
+import 'package:auth0_flutter/auth0_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lisa_bot/icons/custom_icons.dart';
+import 'package:lisa_bot/store/cubit/user.dart';
 import '../constants/index.dart';
 
 class Home extends StatelessWidget {
@@ -8,18 +11,25 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Expanded(
-          child: Padding(
+        backgroundColor: Colors.white,
+        body: BlocBuilder<UserCubit, UserProfile?>(
+            builder: (context, userProfile) {
+          return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 250),
+                    child: Text("Hello ${userProfile?.name ?? ""}",
+                        style: const TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w500)),
+                  ),
+                  ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 250),
                     child: const Text(title,
                         style: TextStyle(
-                            fontSize: 40, fontWeight: FontWeight.w700)),
+                            fontSize: 34, fontWeight: FontWeight.w700)),
                   ),
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 15),
@@ -48,36 +58,34 @@ class Home extends StatelessWidget {
                         color: Colors.pink,
                       )),
                 ],
-              ))),
-      
-
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Container(
-        height: 50,
-        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-        child: ElevatedButton(
-          style: ButtonStyle(
-              shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(0))),
-              backgroundColor: MaterialStateProperty.all(Colors.amber[600])),
-          child: const Center(
-            child: Text(
-              "Continue",
-              style: TextStyle(color: Colors.white),
+              ));
+        }),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: Container(
+          height: 50,
+          margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          child: ElevatedButton(
+            style: ButtonStyle(
+                shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(0))),
+                backgroundColor: MaterialStateProperty.all(Colors.amber[600])),
+            child: const Center(
+              child: Text(
+                "Continue",
+                style: TextStyle(color: Colors.white),
+              ),
             ),
+            onPressed: () => {
+              Navigator.pushNamed(context, '/chat'),
+            },
           ),
-          onPressed: () => {
-            Navigator.pushNamed(context, '/chat'),
-          },
-        ),
-      )
-    );
+        ));
   }
 }
 
 Widget onboardingTile(String title, String description, Icon tileIcon) {
   return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 10),
+    padding: const EdgeInsets.symmetric(vertical: 5),
     child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Padding(
           padding: const EdgeInsets.symmetric(
