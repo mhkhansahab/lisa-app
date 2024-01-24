@@ -35,6 +35,7 @@ class AuthState extends State<Auth> {
                             await auth0.webAuthentication().login();
                         setState(() {
                           context.read<UserCubit>().setUser(credentials.user);
+                          print(credentials.accessToken);
                           Navigator.pushNamed(context, "/home");
                         });
                       } catch (e) {
